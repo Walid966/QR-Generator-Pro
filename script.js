@@ -217,12 +217,17 @@ window.copyToClipboard = (id) => {
     const el = document.getElementById(id);
     if (!el) return;
     const text = el.textContent;
+    const btn = window.event.target; // Using window.event for better compatibility
+    
     navigator.clipboard.writeText(text).then(() => {
-        const btn = event.target;
         const originalText = btn.textContent;
         btn.textContent = "تم النسخ!";
+        const originalBg = btn.className;
+        btn.className = btn.className.replace(/bg-\w+-\d+/, "bg-gray-600");
+        
         setTimeout(() => {
             btn.textContent = originalText;
+            btn.className = originalBg;
         }, 2000);
     });
 };

@@ -17,7 +17,7 @@
             min-height: 100vh;
         }
         .glass {
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
@@ -26,6 +26,19 @@
         }
         .qr-container:hover {
             transform: scale(1.02);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #e2e8f0;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #cbd5e1;
         }
     </style>
 </head>
@@ -165,36 +178,72 @@
         </main>
 
         <!-- Wallet Modal -->
-        <div id="wallet-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-            <div class="glass max-w-sm w-full rounded-3xl p-8 shadow-2xl relative">
-                <button id="close-modal" class="absolute top-4 left-4 text-gray-400 hover:text-gray-600 text-2xl">&times;</button>
+        <div id="wallet-modal" class="fixed inset-0 bg-black/60 backdrop-blur-md hidden items-center justify-center z-50 p-4">
+            <div class="bg-white max-w-md w-full rounded-[2.5rem] p-6 sm:p-10 shadow-2xl relative max-h-[90vh] overflow-y-auto custom-scrollbar">
+                <button id="close-modal" class="absolute top-6 left-6 text-gray-400 hover:text-gray-600 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
                 
-                <h3 class="text-2xl font-bold mb-2 text-center text-gray-800">الدعم عبر المحافظ الذكية</h3>
-                <p class="text-xs text-center text-gray-500 mb-6">انسخ الرقم وقم بالتحويل من تطبيق محفظتك أو بطلب كود التحويل الخاص بشركتك</p>
+                <div class="text-center mb-8">
+                    <h3 class="text-2xl font-black text-gray-900 mb-3">الدعم عبر المحافظ الذكية</h3>
+                    <p class="text-sm text-gray-500 leading-relaxed px-4">انسخ الرقم وقم بالتحويل من تطبيق محفظتك أو بطلب كود التحويل الخاص بشركتك</p>
+                </div>
                 
-                <div class="space-y-6">
-                     <!-- Vodafone Cash -->
-                     <div class="p-4 bg-red-50 rounded-2xl border border-red-100 flex flex-col items-center">
-                         <div class="flex items-center gap-3 mb-4 w-full">
-                             <div class="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center text-white font-bold">V</div>
-                             <span class="font-bold text-red-600">فودافون كاش</span>
-                         </div>
-                         <div id="voda-qr" class="bg-white p-2 rounded-xl shadow-inner mb-3"></div>
-                         <p class="text-[10px] text-gray-400">امسح الكود للتحويل السريع</p>
-                     </div>
- 
-                     <!-- Etisalat Cash -->
-                     <div class="p-4 bg-green-50 rounded-2xl border border-green-100 flex flex-col items-center">
-                         <div class="flex items-center gap-3 mb-4 w-full">
-                             <div class="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center text-white font-bold">E</div>
-                             <span class="font-bold text-green-600">اتصالات كاش</span>
-                         </div>
-                         <div id="eti-qr" class="bg-white p-2 rounded-xl shadow-inner mb-3"></div>
-                         <p class="text-[10px] text-gray-400">امسح الكود للتحويل السريع</p>
-                     </div>
-                 </div>
+                <div class="space-y-8">
+                    <!-- Vodafone Cash Card -->
+                    <div class="relative group">
+                        <div class="absolute -inset-1 bg-gradient-to-r from-red-600 to-red-400 rounded-[2rem] blur opacity-10 group-hover:opacity-20 transition duration-1000"></div>
+                        <div class="relative p-6 bg-red-50/50 rounded-[2rem] border border-red-100 flex flex-col items-center">
+                            <div class="flex items-center justify-between w-full mb-6">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center text-white font-black shadow-lg shadow-red-200 text-xl">V</div>
+                                    <span class="font-black text-red-600 text-lg tracking-tight">فودافون كاش</span>
+                                </div>
+                            </div>
+                            
+                            <div id="voda-qr" class="bg-white p-4 rounded-[1.5rem] shadow-xl shadow-red-100 mb-4 transition-transform hover:scale-[1.02]"></div>
+                            
+                            <p class="text-[11px] font-medium text-gray-400 mb-4">امسح الكود للتحويل السريع</p>
+                            
+                            <!-- Privacy Hidden Number -->
+                            <div class="w-full bg-white/80 backdrop-blur p-3 rounded-2xl border border-red-100 flex items-center justify-between gap-2">
+                                <span id="voda-num" class="font-mono font-bold tracking-[0.2em] text-gray-400 text-sm">010********</span>
+                                <button id="voda-reveal" onclick="revealNumber('voda-num', '01005128825')" class="text-xs bg-red-600 text-white px-4 py-2 rounded-xl hover:bg-red-700 transition-all font-bold shadow-md shadow-red-100">إظهار الرقم</button>
+                                <button id="voda-copy" onclick="copyToClipboard('voda-num')" class="hidden text-xs bg-gray-800 text-white px-4 py-2 rounded-xl hover:bg-gray-900 transition-all font-bold">نسخ</button>
+                            </div>
+                        </div>
+                    </div>
 
-                <p class="mt-6 text-xs text-center text-gray-500 italic">شكراً لدعمك الذي يساعدنا على تطوير الأداة باستمرار ❤️</p>
+                    <!-- Etisalat Cash Card -->
+                    <div class="relative group">
+                        <div class="absolute -inset-1 bg-gradient-to-r from-green-600 to-green-400 rounded-[2rem] blur opacity-10 group-hover:opacity-20 transition duration-1000"></div>
+                        <div class="relative p-6 bg-green-50/50 rounded-[2rem] border border-green-100 flex flex-col items-center">
+                            <div class="flex items-center justify-between w-full mb-6">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center text-white font-black shadow-lg shadow-green-200 text-xl">E</div>
+                                    <span class="font-black text-green-600 text-lg tracking-tight">اتصالات كاش</span>
+                                </div>
+                            </div>
+                            
+                            <div id="eti-qr" class="bg-white p-4 rounded-[1.5rem] shadow-xl shadow-green-100 mb-4 transition-transform hover:scale-[1.02]"></div>
+                            
+                            <p class="text-[11px] font-medium text-gray-400 mb-4">امسح الكود للتحويل السريع</p>
+
+                            <!-- Privacy Hidden Number -->
+                            <div class="w-full bg-white/80 backdrop-blur p-3 rounded-2xl border border-green-100 flex items-center justify-between gap-2">
+                                <span id="eti-num" class="font-mono font-bold tracking-[0.2em] text-gray-400 text-sm">011********</span>
+                                <button id="eti-reveal" onclick="revealNumber('eti-num', '01158770319')" class="text-xs bg-green-600 text-white px-4 py-2 rounded-xl hover:bg-green-700 transition-all font-bold shadow-md shadow-green-100">إظهار الرقم</button>
+                                <button id="eti-copy" onclick="copyToClipboard('eti-num')" class="hidden text-xs bg-gray-800 text-white px-4 py-2 rounded-xl hover:bg-gray-900 transition-all font-bold">نسخ</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-10 text-center">
+                    <p class="text-xs text-gray-400 italic">شكراً لدعمك الذي يساعدنا على تطوير الأداة باستمرار ❤️</p>
+                </div>
             </div>
         </div>
 
