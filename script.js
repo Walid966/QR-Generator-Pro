@@ -136,6 +136,91 @@ downloadSvg.addEventListener("click", () => {
     qrCode.download({ name: "qr-code", extension: "svg" });
 });
 
+// Wallet Modal Elements
+const walletBtn = document.getElementById("wallet-btn");
+const walletModal = document.getElementById("wallet-modal");
+const closeModal = document.getElementById("close-modal");
+
+// Generate Static Donation QRs
+const generateDonationQRs = () => {
+    const vodaQR = new QRCodeStyling({
+        width: 150,
+        height: 150,
+        data: "tel:01000012898", // استبدل برقمك
+        dotsOptions: { color: "#e60000", type: "rounded" },
+        backgroundOptions: { color: "#ffffff" },
+        cornersSquareOptions: { type: "extra-rounded", color: "#e60000" }
+    });
+    
+    const etiQR = new QRCodeStyling({
+        width: 150,
+        height: 150,
+        data: "tel:01158770319", // استبدل برقمك
+        dotsOptions: { color: "#008a00", type: "rounded" },
+        backgroundOptions: { color: "#ffffff" },
+        cornersSquareOptions: { type: "extra-rounded", color: "#008a00" }
+    });
+
+    vodaQR.append(document.getElementById("voda-qr"));
+    etiQR.append(document.getElementById("eti-qr"));
+};
+
+generateDonationQRs();
+
+// Modal Event Listeners
+walletBtn.addEventListener("click", () => {
+    walletModal.classList.remove("hidden");
+    walletModal.classList.add("flex");
+});
+
+closeModal.addEventListener("click", () => {
+    walletModal.classList.add("hidden");
+    walletModal.classList.remove("flex");
+});
+
+// Close modal on click outside
+window.addEventListener("click", (e) => {
+    if (e.target === walletModal) {
+        walletModal.classList.add("hidden");
+        walletModal.classList.remove("flex");
+    }
+});
+
+// Reveal Number Function
+window.revealNumber = (id, actualNumber) => {
+    const span = document.getElementById(id);
+    const revealBtn = document.getElementById(id.split('-')[0] + '-reveal');
+    const copyBtn = document.getElementById(id.split('-')[0] + '-copy');
+
+    span.textContent = actualNumber;
+    span.classList.remove("text-gray-400");
+    span.classList.add("text-gray-800");
+    
+    revealBtn.classList.add("hidden");
+    copyBtn.classList.remove("hidden");
+};
+
+// Copy to Clipboard Function
+window.copyToClipboard = (id) => {
+    const text = document.getElementById(id).textContent;
+    navigator.clipboard.writeText(text).then(() => {
+        const btn = event.target;
+        const originalText = btn.textContent;
+        btn.textContent = "تم النسخ!";
+        btn.classList.replace("bg-red-600", "bg-green-600");
+        btn.classList.replace("bg-green-600", "bg-green-700");
+        
+        setTimeout(() => {
+            btn.textContent = originalText;
+            btn.classList.replace("bg-green-700", "bg-green-600");
+            btn.classList.replace("bg-green-600", "bg-red-600");
+            // Re-apply original brand colors
+            if(id === "voda-num") btn.className = "text-xs bg-red-600 text-white px-3 py-1 rounded-md hover:bg-red-700 transition-colors";
+            if(id === "eti-num") btn.className = "text-xs bg-green-600 text-white px-3 py-1 rounded-md hover:bg-green-700 transition-colors";
+        }, 2000);
+    });
+};
+
 // Reset Logic
 resetBtn.addEventListener("click", () => {
     qrData.value = "";

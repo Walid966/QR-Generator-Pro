@@ -146,14 +146,57 @@
                 </div>
 
                 <!-- Ad/Donation Space -->
-                <div class="mt-8 pt-6 border-t w-full text-center">
-                    <p class="text-sm text-gray-400 mb-4">هل أعجبتك الأداة؟ ساعدنا على الاستمرار</p>
-                    <a href="#" class="inline-flex items-center gap-2 bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-2 px-4 rounded-lg transition-colors">
-                        ☕ ادعمني بكوب قهوة
-                    </a>
+                <div class="mt-8 pt-6 border-t w-full text-center space-y-4">
+                    <p class="text-sm text-gray-400 mb-2">هل أعجبتك الأداة؟ ساعدنا على الاستمرار</p>
+                    
+                    <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                        <a href="https://www.buymeacoffee.com/Walid966" target="_blank" class="inline-flex items-center gap-2 bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-2 px-6 rounded-xl transition-all transform hover:scale-105 shadow-md">
+                            <span class="text-xl">☕</span>
+                            <span>دعم دولي</span>
+                        </a>
+
+                        <button id="wallet-btn" class="inline-flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-6 rounded-xl transition-all transform hover:scale-105 shadow-md">
+                            <span class="text-xl">📱</span>
+                            <span>محافظ إلكترونية (مصر)</span>
+                        </button>
+                    </div>
                 </div>
             </section>
         </main>
+
+        <!-- Wallet Modal -->
+        <div id="wallet-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+            <div class="glass max-w-sm w-full rounded-3xl p-8 shadow-2xl relative">
+                <button id="close-modal" class="absolute top-4 left-4 text-gray-400 hover:text-gray-600 text-2xl">&times;</button>
+                
+                <h3 class="text-2xl font-bold mb-2 text-center text-gray-800">الدعم عبر المحافظ الذكية</h3>
+                <p class="text-xs text-center text-gray-500 mb-6">انسخ الرقم وقم بالتحويل من تطبيق محفظتك أو بطلب كود التحويل الخاص بشركتك</p>
+                
+                <div class="space-y-6">
+                     <!-- Vodafone Cash -->
+                     <div class="p-4 bg-red-50 rounded-2xl border border-red-100 flex flex-col items-center">
+                         <div class="flex items-center gap-3 mb-4 w-full">
+                             <div class="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center text-white font-bold">V</div>
+                             <span class="font-bold text-red-600">فودافون كاش</span>
+                         </div>
+                         <div id="voda-qr" class="bg-white p-2 rounded-xl shadow-inner mb-3"></div>
+                         <p class="text-[10px] text-gray-400">امسح الكود للتحويل السريع</p>
+                     </div>
+ 
+                     <!-- Etisalat Cash -->
+                     <div class="p-4 bg-green-50 rounded-2xl border border-green-100 flex flex-col items-center">
+                         <div class="flex items-center gap-3 mb-4 w-full">
+                             <div class="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center text-white font-bold">E</div>
+                             <span class="font-bold text-green-600">اتصالات كاش</span>
+                         </div>
+                         <div id="eti-qr" class="bg-white p-2 rounded-xl shadow-inner mb-3"></div>
+                         <p class="text-[10px] text-gray-400">امسح الكود للتحويل السريع</p>
+                     </div>
+                 </div>
+
+                <p class="mt-6 text-xs text-center text-gray-500 italic">شكراً لدعمك الذي يساعدنا على تطوير الأداة باستمرار ❤️</p>
+            </div>
+        </div>
 
         <footer class="mt-16 text-center text-white space-y-4">
             <div class="glass inline-block px-8 py-4 rounded-2xl text-gray-800 text-sm max-w-2xl mx-auto shadow-lg">
